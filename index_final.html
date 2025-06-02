@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>GURMAN TECH WORLD</title>
+<style>
+    /* Reset and base */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation Bar */
+    header {
+      background-color: rgba(30, 60, 114, 0.9);
+      padding: 15px 30px;
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    header button {
+      background-color: transparent;
+      border: 2px solid #fff;
+      color: #fff;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+      font-weight: 600;
+      min-width: 150px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    header button:hover,
+    header button.active {
+      background-color: #fff;
+      color: #1e3c72;
+      border-color: #1e3c72;
+      box-shadow: 0 0 10px #1e3c72;
+    }
+
+    /* Main content area */
+    main {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    /* Card style containers for forms */
+    .section {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      padding: 30px 40px;
+      max-width: 750px;
+      width: 100%;
+      display: none;
+      /* Hidden by default */
+      flex-direction: column;
+      gap: 25px;
+      color: #fff;
+    }
+
+    /* Show active section */
+    .section.active {
+      display: flex;
+    }
+
+    /* Form groups */
+    label {
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: block;
+      font-size: 1rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 12px 15px;
+      font-size: 1rem;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      resize: none;
+    }
+
+    textarea {
+      height: 180px;
+      color: #111;
+    }
+
+    /* Buttons */
+    button.action {
+      background-color: #1e3c72;
+      color: white;
+      font-weight: 700;
+      padding: 14px 25px;
+      border-radius: 12px;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+      width: fit-content;
+      align-self: flex-start;
+      box-shadow: 0 5px 15px rgba(30, 60, 114, 0.7);
+    }
+
+    button.action:hover {
+      background-color: #14529f;
+      box-shadow: 0 7px 20px rgba(20, 82, 159, 0.9);
+    }
+
+    /* Inline row for date selects in CC Generator */
+    .inline-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    /* Result textareas styling */
+    textarea[readonly] {
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 1rem;
+      color: #222;
+      padding: 15px;
+      user-select: all;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .section {
+        padding: 20px;
+      }
+    }
+  
+header .brand {
+  position: absolute;
+  left: 20px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(45deg, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeIn 1s ease-in-out;
+  white-space: nowrap;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+
+/* Extra modern touches */
+body {
+  scroll-behavior: smooth;
+}
+
+.section {
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.section:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+button.action {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4);
+}
+
+button.action:hover {
+  background: linear-gradient(to right, #00f2fe, #4facfe);
+  transform: scale(1.03);
+}
+
+footer {
+  background-color: #1e3c72;
+  color: #ffffffcc;
+  border-top: 2px solid #ffffff33;
+}
+
+
+input[type="text"],
+input[type="number"],
+select,
+textarea {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff !important;
+  transition: background-color 0.3s ease;
+}
+
+select option {
+  color: #000 !important;
+}
+</style>
+</head>
+<body>
+<header>
+<div class="brand">GURMAN TECH WORLD</div>
+<button class="active" id="btn-cc" onclick="showSection('cc')">CC Generator</button>
+<button id="btn-address" onclick="showSection('address')">Address</button>
+</header>
+<main>
+<!-- CC Generator Section -->
+<section class="section active" id="cc-section">
+<label for="bin">BIN</label>
+<input id="bin" placeholder="Enter BIN (Required)" type="text"/>
+<label>Date</label>
+<div class="inline-row">
+<select aria-label="Select month" id="month">
+<option value="">Random</option>
+<option value="01">01</option>
+<option value="02">02</option>
+<option value="03">03</option>
+<option value="04">04</option>
+<option value="05">05</option>
+<option value="06">06</option>
+<option value="07">07</option>
+<option value="08">08</option>
+<option value="09">09</option>
+<option value="10">10</option>
+<option value="11">11</option>
+<option value="12">12</option>
+</select>
+<select aria-label="Select year" id="year">
+<option value="">Random</option>
+<option value="25">25</option>
+<option value="26">26</option>
+<option value="27">27</option>
+<option value="28">28</option>
+<option value="29">29</option>
+</select>
+</div>
+<label for="cvv">CCV2</label>
+<input id="cvv" placeholder="Leave blank to randomize" type="text"/>
+<label for="quantity">Quantity</label>
+<input id="quantity" max="100" min="1" type="number" value="10"/>
+<button class="action" onclick="generateCards()">Generate Cards</button>
+<label for="output">Result</label>
+<textarea id="output" readonly=""></textarea>
+<button class="action" onclick="copyCards()">Copy Cards</button>
+</section>
+<!-- Address Generator Section -->
+<section class="section" id="address-section">
+<label for="country-input">Enter Country Name</label>
+<input id="country-input" placeholder="e.g., India, USA, UK, Russia" type="text"/>
+<button class="action" onclick="generateAddress()">Generate Address</button>
+<label for="address-output">Generated Address</label>
+<textarea id="address-output" placeholder="Address will appear here..." readonly=""></textarea>
+</section>
+</main>
+<script>
+    // Navigation buttons and sections
+    const btnCC = document.getElementById('btn-cc');
+    const btnAddress = document.getElementById('btn-address');
+    const ccSection = document.getElementById('cc-section');
+    const addressSection = document.getElementById('address-section');
+
+    function showSection(section) {
+      if (section === 'cc') {
+        ccSection.classList.add('active');
+        addressSection.classList.remove('active');
+        btnCC.classList.add('active');
+        btnAddress.classList.remove('active');
+      } else if (section === 'address') {
+        addressSection.classList.add('active');
+        ccSection.classList.remove('active');
+        btnAddress.classList.add('active');
+        btnCC.classList.remove('active');
+      }
+    }
+
+    // Helper functions for CC Generator
+    function getRandomInt(length) {
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += Math.floor(Math.random() * 10);
+      }
+      return result;
+    }
+
+    function luhnCheck(num) {
+      let arr = (num + '').split('').reverse().map(x => parseInt(x));
+      let sum = arr.reduce((acc, val, idx) => {
+        if (idx % 2 === 1) {
+          val *= 2;
+          if (val > 9) val -= 9;
+        }
+        return acc + val;
+      }, 0);
+      return sum % 10 === 0;
+    }
+
+    function generateCards() {
+      const bin = document.getElementById('bin').value.trim();
+      const quantity = parseInt(document.getElementById('quantity').value);
+      const month = document.getElementById('month').value;
+      const year = document.getElementById('year').value;
+      let cvv = document.getElementById('cvv').value.trim();
+
+      if (!bin || bin.length < 6 || !/^\d+$/.test(bin)) {
+        alert('Please enter a valid numeric BIN of at least 6 digits.');
+        return;
+      }
+      if (quantity < 1 || quantity > 100) {
+        alert('Quantity must be between 1 and 100.');
+        return;
+      }
+
+      let results = [];
+      while (results.length < quantity) {
+        let cardNum = bin;
+        // Complete card number to length 16 with random digits
+        while (cardNum.length < 15) {
+          cardNum += Math.floor(Math.random() * 10);
+        }
+        // Calculate check digit
+        for (let i = 0; i <= 9; i++) {
+          let checkNum = cardNum + i;
+          if (luhnCheck(checkNum)) {
+            cardNum = checkNum;
+            break;
+          }
+        }
+
+        // Expiry date
+        let expMonth = month || ('0' + (Math.floor(Math.random() * 12) + 1)).slice(-2);
+        let expYear = year || ('' + (Math.floor(Math.random() * 5) + 25)); // 25-29
+        let exp = expMonth + '|20' + expYear
+
+        // CVV
+        let cardCvv = cvv || ('00' + Math.floor(Math.random() * 1000)).slice(-3);
+
+        results.push(`${cardNum}|${exp}|${cardCvv}`);
+      }
+
+      document.getElementById('output').value = results.join('\n');
+    }
+
+    function copyCards() {
+      const output = document.getElementById('output');
+      output.select();
+      output.setSelectionRange(0, 99999);
+      document.execCommand('copy');
+      alert('Cards copied to clipboard!');
+    }
+
+    // Address data
+    const addressData = {
+      india: [
+        "123 MG Road, Bengaluru, Karnataka 560001",
+        "456 Park Street, Kolkata, West Bengal 700016",
+        "789 Connaught Place, New Delhi, Delhi 110001",
+        "12 Churchgate, Mumbai, Maharashtra 400020",
+        "67 Brigade Road, Bengaluru, Karnataka 560025"
+      ],
+      usa: [
+        "742 Evergreen Terrace, Springfield, Illinois 62704",
+        "1600 Pennsylvania Avenue NW, Washington, DC 20500",
+        "221B Baker Street, New York, NY 10001",
+        "350 Fifth Avenue, New York, NY 10118",
+        "1 Infinite Loop, Cupertino, CA 95014"
+      ],
+      uk: [
+        "10 Downing Street, London, Greater London SW1A 2AA",
+        "221B Baker Street, London, NW1 6XE",
+        "1600 Pennsylvania Avenue, London, SW1A 1AA",
+        "Buckingham Palace, London, SW1A 1AA",
+        "1 Oxford Street, London, W1D 1BS"
+      ],
+      algeria: [
+        "12 Rue Didouche Mourad, Algiers, Alger 16000",
+        "23 Avenue Larbi Ben M'hidi, Oran, Oran 31000",
+        "5 Boulevard Zighoud Youcef, Constantine, Constantine 25000"
+      ],
+      kazakhstan: [
+        "23 Dostyk Avenue, Almaty, Almaty 050000",
+        "15 Abay Avenue, Nur-Sultan, Akmola 010000",
+        "45 Tauke Khan Avenue, Shymkent, South Kazakhstan 160000"
+      ],
+      mexico: [
+        "Av. Paseo de la Reforma 305, Mexico City, CDMX 06500",
+        "Calle 16 de Septiembre 25, Guadalajara, Jalisco 44100",
+        "Av. Insurgentes Sur 810, Mexico City, CDMX 03100"
+      ],
+      canada: [
+        "24 Sussex Drive, Ottawa, Ontario K1M 1M4",
+        "100 Queen St W, Toronto, Ontario M5H 2N2",
+        "750 Hornby St, Vancouver, British Columbia V6Z 2H7"
+      ],
+      australia: [
+        "1 Macquarie St, Sydney, New South Wales 2000",
+        "221 Collins St, Melbourne, Victoria 3000",
+        "50 Queen St, Brisbane, Queensland 4000"
+      ],
+      turkey: [
+        "Atatürk Blvd No: 12, Ankara, Ankara 06100",
+        "İstiklal Cd. No: 50, Istanbul, Istanbul 34433",
+        "Cumhuriyet Meydanı, Izmir, Izmir 35040"
+      ],
+      pakistan: [
+        "F-8 Markaz, Islamabad, Islamabad Capital Territory 44000",
+        "Shahrah-e-Faisal, Karachi, Sindh 74400",
+        "Mall Road, Lahore, Punjab 54000"
+      ],
+      afghanistan: [
+        "Pul-e Khishti Mosque Rd, Kabul, Kabul 1001",
+        "Deh Afghanan, Kabul, Kabul 1001"
+      ],
+      china: [
+        "No.1 Tiananmen Square, Beijing, Beijing 100006",
+        "Nanjing Road, Shanghai, Shanghai 200001",
+        "Chengdu Renmin South Road, Chengdu, Sichuan 610000"
+      ],
+      russia: [
+        "Red Square, Moscow, Moscow 109012",
+        "Nevsky Prospect, Saint Petersburg, Saint Petersburg 191186",
+        "Leninsky Prospekt, Novosibirsk, Novosibirsk 630000"
+      ]
+    };
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function generateAddress() {
+      const input = document.getElementById('country-input').value.trim().toLowerCase();
+
+      if (!input) {
+        alert('Please enter a country name.');
+        return;
+      }
+
+      if (!(input in addressData)) {
+        alert('Country not supported or invalid. Supported countries: India, USA, UK, Algeria, Kazakhstan, Mexico, Canada, Australia, Turkey, Pakistan, Afghanistan, China, Russia.');
+        return;
+      }
+
+      const addresses = addressData[input];
+      const randomIndex = Math.floor(Math.random() * addresses.length);
+      const address = addresses[randomIndex];
+
+      // Parse address into components (street, city, state, zip)
+      let parts = address.split(',');
+      let street = parts[0].trim();
+      let city = parts.length > 1 ? parts[1].trim() : '';
+      let stateZip = parts.length > 2 ? parts[2].trim() : (parts.length > 1 ? parts[1].trim() : '');
+
+      let state = '';
+      let zip = '';
+      if (stateZip) {
+        let stateZipParts = stateZip.split(' ');
+        if (stateZipParts.length > 1) {
+          zip = stateZipParts.pop();
+          state = stateZipParts.join(' ');
+        } else {
+          state = stateZipParts[0];
+          zip = '';
+        }
+      }
+
+      function generateMobile(country) {
+        let prefix = '';
+        if (country === 'india') {
+          prefix = ['9', '8', '7'][Math.floor(Math.random() * 3)];
+        } else if (country === 'usa' || country === 'canada') {
+          prefix = Math.floor(201 + Math.random() * 799).toString(); // area code between 201-999
+        } else if (country === 'uk') {
+          prefix = '07';
+        } else {
+          prefix = '9'; // default generic
+        }
+        let restLength = 10 - prefix.length;
+        let rest = '';
+        for (let i = 0; i < restLength; i++) rest += Math.floor(Math.random() * 10);
+        return prefix + rest;
+      }
+
+      let mobile = generateMobile(input);
+
+      const formattedAddress =
+        `Street - ${street}
+City - ${city}
+State - ${state}
+Zip Code - ${zip}
+Mobile - ${mobile}
+Country - ${capitalize(input)}`;
+
+      document.getElementById('address-output').value = formattedAddress;
+    }
+  </script>
+<footer>
+    © 2025 GURMAN TECH WORLD. All rights reserved.
+  </footer>
+</body>
+</html>
